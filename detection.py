@@ -7,7 +7,7 @@ model = YOLO('yolov8n.pt')
 # COCO dataset class IDs for vehicles
 VEHICLE_CLASSES = [2, 3, 5, 7]  # 2: car, 3: motorcycle, 5: bus, 7: truck
 
-def detect_vehicles(image, conf_threshold=0.5, use_tracking=False):
+def detect_vehicles(image, conf_threshold=0.5, use_tracking=False, draw_boxes=True):
     """
     Detects (and optionally tracks) vehicles in the image using YOLOv8.
     """
@@ -43,18 +43,19 @@ def detect_vehicles(image, conf_threshold=0.5, use_tracking=False):
                 'track_id': track_id
             })
             
-            # Draw bounding box and label
-            label = f"{class_name} {track_id if track_id else ''}: {conf:.2f}"
-            
-            # Distinct colors for different classes
-            color = (0, 255, 0)
-            if class_name == 'car': color = (255, 50, 50)
-            elif class_name == 'truck': color = (50, 50, 255)
-            elif class_name == 'bus': color = (255, 255, 50)
-            elif class_name == 'motorcycle': color = (255, 50, 255)
-            
-            cv2.rectangle(annotated_image, (x1, y1), (x2, y2), color, 2)
-            cv2.putText(annotated_image, label, (x1, max(y1 - 10, 10)), 
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+            if draw_boxes:
+                # Draw bounding box and label
+                label = f"{class_name} {track_id if track_id else ''}: {conf:.2f}"
+                
+                # Distinct colors for different classes
+                color = (0, 255, 0)
+                if class_name == 'car': color = (255, 50, 50)
+                elif class_name == 'truck': color = (50, 50, 255)
+                elif class_name == 'bus': color = (255, 255, 50)
+                elif class_name == 'motorcycle': color = (255, 50, 255)
+                
+                cv2.rectangle(annotated_image, (x1, y1), (x2, y2), color, 2)
+                cv2.putText(annotated_image, label, (x1, max(y1 - 10, 10)), 
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
                         
     return annotated_image, detections
