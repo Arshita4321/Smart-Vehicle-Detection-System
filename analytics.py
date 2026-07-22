@@ -6,7 +6,7 @@ class TrafficAnalytics:
         self.history = []
         
     def add_frame_data(self, frame_id, vehicle_count, avg_confidence, status):
-        \"\"\"Adds analytics data for a single frame.\"\"\"
+        """Adds analytics data for a single frame."""
         self.history.append({
             'Frame': frame_id,
             'Vehicle Count': vehicle_count,
@@ -15,7 +15,7 @@ class TrafficAnalytics:
         })
         
     def get_trend_chart(self):
-        \"\"\"Generates a plotly chart for vehicle count trend.\"\"\"
+        """Generates a plotly chart for vehicle count trend."""
         if not self.history:
             return None
             
@@ -27,14 +27,14 @@ class TrafficAnalytics:
                       color_discrete_sequence=['#1f77b4'])
                       
         fig.update_layout(
-            xaxis_title=\"Frame Number\",
-            yaxis_title=\"Number of Vehicles\",
-            template=\"plotly_white\",
+            xaxis_title="Frame Number",
+            yaxis_title="Number of Vehicles",
+            template="plotly_white",
             margin=dict(l=20, r=20, t=40, b=20)
         )
         
         return fig
         
     def reset(self):
-        \"\"\"Resets the analytics history.\"\"\"
+        """Resets the analytics history."""
         self.history = []

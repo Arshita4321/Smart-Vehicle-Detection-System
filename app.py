@@ -11,7 +11,7 @@ from rules import analyze_traffic
 from analytics import TrafficAnalytics
 
 # Page Config
-st.set_page_config(page_title=\"Smart Vehicle Detection\", page_icon=\"🚗\", layout=\"wide\")
+st.set_page_config(page_title="Smart Vehicle Detection", page_icon="🚗", layout="wide")
 
 # Initialize Analytics in session state
 if 'analytics' not in st.session_state:
@@ -24,39 +24,39 @@ def reset_session():
     st.session_state.frame_count = 0
 
 # UI Header
-st.title(\"🚗 Smart Vehicle Detection with Rule-Based Traffic Analysis\")
-st.markdown(\"\"\"
+st.title("🚗 Smart Vehicle Detection with Rule-Based Traffic Analysis")
+st.markdown("""
 This application detects vehicles (cars, trucks, buses, bikes) in images or videos, 
 analyzes the traffic conditions using simple rule-based logic, and presents real-time analytics.
-\"\"\")
+""")
 
 # Sidebar Controls
-st.sidebar.header(\"⚙️ Settings\")
-conf_threshold = st.sidebar.slider(\"Confidence Threshold\", 0.1, 1.0, 0.5, 0.05)
-apply_blur = st.sidebar.toggle(\"Apply Gaussian Blur (Preprocessing)\", value=False)
+st.sidebar.header("⚙️ Settings")
+conf_threshold = st.sidebar.slider("Confidence Threshold", 0.1, 1.0, 0.5, 0.05)
+apply_blur = st.sidebar.toggle("Apply Gaussian Blur (Preprocessing)", value=False)
 
-if st.sidebar.button(\"🔄 Reset Session\"):
+if st.sidebar.button("🔄 Reset Session"):
     reset_session()
-    st.sidebar.success(\"Session Reset Successfully!\")
+    st.sidebar.success("Session Reset Successfully!")
 
-st.sidebar.markdown(\"---_{}_---\")
-st.sidebar.markdown(\"**Supported Formats:** .jpg, .jpeg, .png, .mp4\")
+st.sidebar.markdown("---_{}_---")
+st.sidebar.markdown("**Supported Formats:** .jpg, .jpeg, .png, .mp4")
 
 # Main Layout
 col1, col2 = st.columns([2, 1])
 
 # File Uploader
-uploaded_file = st.file_uploader(\"Upload an Image or Video\", type=['jpg', 'jpeg', 'png', 'mp4'])
+uploaded_file = st.file_uploader("Upload an Image or Video", type=['jpg', 'jpeg', 'png', 'mp4'])
 
 if uploaded_file is not None:
     file_type = uploaded_file.name.split('.')[-1].lower()
     
     with col1:
-        st.subheader(\"Output Visualization\")
+        st.subheader("Output Visualization")
         output_placeholder = st.empty()
         
     with col2:
-        st.subheader(\"Real-Time Metrics\")
+        st.subheader("Real-Time Metrics")
         metrics_placeholder = st.empty()
         trend_placeholder = st.empty()
         
@@ -89,10 +89,10 @@ if uploaded_file is not None:
         output_placeholder.image(cv2_to_pil(annotated_img), use_container_width=True)
         
         with metrics_placeholder.container():
-            st.metric(\"Vehicles Detected\", vehicle_count)
-            st.metric(\"Avg Confidence\", f\"{avg_conf:.2f}\")
-            st.markdown(f\"**Traffic Status:** <span style='color:{color}; font-weight:bold;'>{status}</span>\", unsafe_allow_html=True)
-            st.caption(f\"Inference Time: {inference_time:.3f}s\")
+            st.metric("Vehicles Detected", vehicle_count)
+            st.metric("Avg Confidence", f"{avg_conf:.2f}")
+            st.markdown(f"**Traffic Status:** <span style='color:{color}; font-weight:bold;'>{status}</span>", unsafe_allow_html=True)
+            st.caption(f"Inference Time: {inference_time:.3f}s")
             
         with trend_placeholder.container():
             chart = st.session_state.analytics.get_trend_chart()
@@ -134,13 +134,13 @@ if uploaded_file is not None:
             
             # Display Output
             rgb_frame = cv2.cvtColor(annotated_img, cv2.COLOR_BGR2RGB)
-            output_placeholder.image(rgb_frame, channels=\"RGB\", use_container_width=True)
+            output_placeholder.image(rgb_frame, channels="RGB", use_container_width=True)
             
             with metrics_placeholder.container():
-                st.metric(\"Vehicles Detected\", vehicle_count)
-                st.metric(\"Avg Confidence\", f\"{avg_conf:.2f}\")
-                st.markdown(f\"**Traffic Status:** <span style='color:{color}; font-weight:bold;'>{status}</span>\", unsafe_allow_html=True)
-                st.caption(f\"FPS: {fps:.1f} | Inference Time: {inference_time:.3f}s\")
+                st.metric("Vehicles Detected", vehicle_count)
+                st.metric("Avg Confidence", f"{avg_conf:.2f}")
+                st.markdown(f"**Traffic Status:** <span style='color:{color}; font-weight:bold;'>{status}</span>", unsafe_allow_html=True)
+                st.caption(f"FPS: {fps:.1f} | Inference Time: {inference_time:.3f}s")
                 
             with trend_placeholder.container():
                 chart = st.session_state.analytics.get_trend_chart()
@@ -152,4 +152,4 @@ if uploaded_file is not None:
             
         cap.release()
 else:
-    st.info(\"Please upload an image or video to start the analysis.\")
+    st.info("Please upload an image or video to start the analysis.")

@@ -8,9 +8,9 @@ model = YOLO('yolov8n.pt')
 VEHICLE_CLASSES = [2, 3, 5, 7]  # 2: car, 3: motorcycle, 5: bus, 7: truck
 
 def detect_vehicles(image, conf_threshold=0.5):
-    \"\"\"
+    """
     Detects vehicles in the image using YOLOv8.
-    \"\"\"
+    """
     # Run YOLOv8 inference
     results = model(image, conf=conf_threshold, classes=VEHICLE_CLASSES, verbose=False)
     
@@ -35,7 +35,7 @@ def detect_vehicles(image, conf_threshold=0.5):
             })
             
             # Draw bounding box and label
-            label = f\"{class_name}: {conf:.2f}\"
+            label = f"{class_name}: {conf:.2f}"
             cv2.rectangle(annotated_image, (x1, y1), (x2, y2), (0, 255, 0), 2)
             cv2.putText(annotated_image, label, (x1, y1 - 10), 
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
